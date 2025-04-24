@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Image Generator Landing Page</title>
+  <style>
+    /* RESET / GLOBAL STYLES */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Helvetica Neue", sans-serif;
+    }
+
+    body {
+      color: #333;
+      line-height: 1.6;
+      background-color: #f9f9ff;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* NAVBAR */
+    .header {
+      width: 100%;
+      position: sticky;
+      top: 0;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      z-index: 999;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+    
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.5rem;
+      color: #333;
+      text-decoration: none;
+    }
+
+    .nav-right {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-right a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .menu-icon {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 2rem 10%;
+      background: linear-gradient(to right, #f4f4f4, #fff);
+      min-height: 70vh;
+    }
+
+    .hero-text {
+      flex: 1 1 450px;
+      margin-bottom: 1rem;
+    }
+
+    .hero-text h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      max-width: 500px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background-color: #7e5dfa;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 600;
+      transition: background 0.3s;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      background-color: #6c45f4;
+    }
+
+    .hero-images {
+      flex: 1 1 450px;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .hero-img {
+      width: 150px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    /* ABOUT & HOW-TO SECTIONS */
+    .split-section {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 2rem;
+      padding: 3rem 5%;
+    }
+
+    .reverse {
+      flex-direction: row-reverse;
+    }
+
+    .section-image {
+      flex: 1 1 400px;
+      border-radius: 10px;
+    }
+
+    .section-text {
+      flex: 1 1 500px;
+    }
+
+    .section-text ul {
+      list-style: disc;
+      padding-left: 1.5rem;
+    }
+
+    /* IMAGE BUTTON SECTION */
+    #imageContainer img {
+      margin-top: 1rem;
+      border-radius: 10px;
+    }
+
+    ul {
+      margin-bottom: 1rem;
+      color: #444;
+    }
+
+    ul li {
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+
+    .pricing, .faq { flex: 1 1 400px; }
+    .price-features { list-style: none; padding: 0; margin-bottom: 1rem; }
+    .price-features li { margin: 0.5rem 0; }
+    .faq-question { margin-bottom: 1rem; }
+    .faq-question h3 { font-size: 1.2rem; margin-bottom: 0.25rem; }
+
+    /* PRICING SECTION */
+    .pricing-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      padding: 2rem 5%;
+      background-color: #f9f9ff;
+    }
+
+    .pricing-card {
+      flex: 1 1 250px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .pricing-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .price span {
+      font-size: 1rem;
+      color: #777;
+    }
+
+    .subtitle {
+      margin: 0.5rem 0 1rem;
+      color: #666;
+    }
+
+    .pricing-card ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 1.5rem;
+      color: #444;
+    }
+
+    .pricing-card ul li {
+      margin: 0.5rem 0;
+    }
+    .cta-button {
+  border: none;
+}
+
+
+    .cta-button.purple {
+      background-color: #b84cff;
+    }
+
+    .cta-button.purple:hover {
+      background-color: #a63ee6;
+    }
+
+    .cta-button.red {
+      background-color: #f44336;
+    }
+
+    .cta-button.red:hover {
+      background-color: #d32f2f;
+    }
+
+    /* FOOTER */
+    .footer {
+      background-color: #222;
+      color: #ddd;
+      text-align: center;
+      padding: 2rem 5%;
+    }
+
+    .footer a {
+      color: #ddd;
+      text-decoration: none;
+      margin: 0 0.5rem;
+    }
+
+    .footer-flex {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 2rem;
+    }
+
+    .footer-column {
+      flex: 1 1 200px;
+      text-align: left;
+    }
+
+    .footer-column ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-socials {
+      margin-top: 1rem;
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    /* MEDIA QUERIES */
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        padding: 2rem 5%;
+      }
+
+      .nav-right {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        background: #fff;
+        padding: 1rem 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+      }
+
+      .nav-right li {
+        margin: 1rem 0;
+      }
+
+      .nav-right.show {
+        display: flex;
+      }
+
+      .menu-icon {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <nav class="navbar">
+      <a href="#home" class="logo">My Ai</a>
+      <ul class="nav-right" id="navLinks">
+        <li><a href="register.html">Register</a></li>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#premium">Premium</a></li>
+        <li><a href="#footer">Contact</a></li>
+        
+      </ul>
+      <div class="menu-icon" id="menuIcon">☰</div>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="hero-text">
+      <h1>AI Image Generator</h1>
+      <p>Create stunning visuals with our cutting-edge AI Image Generator in seconds.</p>
+      <a href="generate.html" class="cta-button">Generate Image</a>
+    </div>
+    <div class="hero-images">
+      <img src="https://picsum.photos/300/400?random=1" alt="Example 1" class="hero-img" />
+      <img src="https://picsum.photos/300/400?random=2" alt="Example 2" class="hero-img" />
+      <img src="https://picsum.photos/300/400?random=3" alt="Example 3" class="hero-img" />
+    </div>
+  </section>
+
+  <section id="about" class="split-section">
+    <div class="section-image">
+      <img src="https://picsum.photos/500/400?random=10" alt="About Us Image" />
+    </div>
+    <div class="section-text">
+      <h2>About Us</h2>
+      <p>At <strong>My Ai</strong>, we empower creators to bring their imagination to life with our intuitive, AI-powered image generation platform.</p>
+      <ul>
+        <li><strong>AI-Driven Creativity:</strong> Leverage cutting-edge technology to transform text into stunning visuals.</li>
+        <li><strong>For Everyone:</strong> Artists, designers, marketers, and developers can all benefit from our easy-to-use tools.</li>
+        <li><strong>Seamless Integration:</strong> Use our robust API to automate image generation into any workflow.</li>
+        <li><strong>Unlimited Possibilities:</strong> From concept art to prototypes, our AI adapts to any creative need.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="how-to-use" class="split-section reverse">
+    <div class="section-image">
+      <img src="https://picsum.photos/500/400?random=12" alt="How to Use Image" />
+    </div>
+    <div class="section-text">
+      <h2>How to Use</h2>
+      <ul>
+        <li><strong>Sign Up:</strong> Create an account in seconds to access the dashboard.</li>
+        <li><strong>Get API Key:</strong> Retrieve your personal API key from the dashboard.</li>
+        <li><strong>Send Prompt:</strong> Submit a creative text description and choose a style.</li>
+        <li><strong>Receive Image:</strong> Instantly get a high-quality AI-generated image as a URL or base64.</li>
+      </ul>
+      <p>Prefer a quick demo? Click the button below to instantly generate a random image!</p>
+      <button id="generateBtn" onclick="window.location.href='generate.html'" class="cta-button">Generate Image</button>
+      <div id="imageContainer"></div>
+    </div>
+  </section>
+
+  <section id="premium">
+    <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">Choose Your Best Plan</h2>
+    <div class="pricing-container">
+      
+      <div class="pricing-card free">
+        <h3>Free</h3>
+        <p class="price">$0</p>
+        <p class="subtitle">Perfect for individuals</p>
+        <ul>
+          <li>✓ Basic access</li>
+          <li>✓ Random Unsplash images</li>
+          <li>✓ Limited resolution</li>
+        </ul>
+        <button class="cta-button">Get Started</button>
+      </div>
+  
+   
+      <div class="pricing-card pro">
+        <h3>Pro</h3>
+        <p class="price">$10<span>/mo</span></p>
+        <p class="subtitle">Great for professionals</p>
+        <ul>
+          <li>✓ High resolution images</li>
+          <li>✓ Priority speed</li>
+          <li>✓ Ad-free experience</li>
+        </ul>
+        
+        <button class="cta-button purple" onclick="window.location.href='upgrade.html'">Upgrade</button>
+      </div>
+  
+      
+      <div class="pricing-card enterprise">
+        <h3>Enterprise</h3>
+        <p class="price">$25<span>/mo</span></p>
+        <p class="subtitle">Best for teams & businesses</p>
+        <ul>
+          <li>✓ All Pro features</li>
+          <li>✓ API usage limits raised</li>
+          <li>✓ Dedicated support</li>
+        </ul>
+        
+        <button class="cta-button red" onclick="window.location.href='upgrade.html'">Upgrade</button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="footer">
+    <div class="footer-flex">
+      <div class="footer-column">
+        <h3 style="margin-bottom: 0.5rem;">My Ai</h3>
+        <p>Empowering your creativity with cutting-edge AI tools to turn imagination into images.</p>
+      </div>
+      <div class="footer-column">
+        <h4 style="margin-bottom: 0.5rem;">Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#how-to-use">How to Use</a></li>
+          <li><a href="#premium">Pricing</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4 style="margin-bottom: 0.5rem;">Contact Us</h4>
+        <p>Email: uday55@gmail.com</p>
+        <p>Phone: +91 (987) xxx-xxxx</p>
+        <div class="footer-socials">
+          <a href="https://twitter.com" target="_blank" aria-label="Twitter">
+            <img src="https://abs.twimg.com/favicons/twitter.ico" alt="Twitter" width="24" height="24" />
+          </a>
+          <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+            <img src="https://static.licdn.com/scds/common/u/images/logos/favicons/v1/favicon.ico" alt="LinkedIn" width="24" height="24" />
+          </a>
+          <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+            <img src="https://www.instagram.com/static/images/ico/favicon.ico/36b3ee2d91ed.ico" alt="Instagram" width="24" height="24" />
+          </a>
+        </div>
+      </div>
+    </div>
+    <hr style="margin: 2rem 0; border-color: #444;" />
+    <p>© 2025 My Ai. All rights reserved. • <a href="#about">Privacy Policy</a> • <a href="#about">Terms of Use</a></p>
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menuIcon = document.getElementById('menuIcon');
+      const navLinks = document.getElementById('navLinks');
+  
+      menuIcon.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+      });
+    });
+  </script>
+  
+
+        <script type="module">
+    import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { auth } from './firebase-app.js';
+
+    // Optional: redirect to login if not signed in
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        window.location.href = "signin.html";
+      }
+    });
+
+    function logout() {
+      signOut(auth).then(() => {
+        window.location.href = "signin.html";
+      });
+    }
+    document.getElementById('menuIcon').addEventListener('click', () => {
+      const navLinks = document.getElementById('navLinks');
+      navLinks.classList.toggle('show');
+    });
+
+    const generateBtn = document.getElementById('generateBtn');
+    const imageContainer = document.getElementById('imageContainer');
+
+    generateBtn.addEventListener('click', () => {
+      const img = document.createElement('img');
+      img.src = `https://source.unsplash.com/random/800x600?sig=${Date.now()}`;
+      img.alt = 'Random Unsplash Image';
+      imageContainer.innerHTML = '';
+      imageContainer.appendChild(img);
+    });
+
+
+  
+  </script>
+</body>
+</html>
